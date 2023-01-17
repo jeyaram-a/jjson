@@ -9,6 +9,10 @@ public class JsonString implements JsonElement {
     public JsonString(String str) {
         this.str = str;
     }
+
+    public String getVal() {
+        return str;
+    }
     public JsonArray toJsonArray() {
         throw new UnsupportedOperationException("Cannot convert JsonString to JsonArray");
     }

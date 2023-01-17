@@ -9,12 +9,15 @@ public class JsonBoolean implements JsonElement {
     public JsonBoolean(boolean val) {
         this.val = val;
     }
+
+    public boolean getVal() {
+        return val;
+    }
     @Override
     public JsonArray toJsonArray() {
         throw new UnsupportedOperationException("Cannot convert JsonBoolean to JsonArray");
 
     }
-
     @Override
     public JsonObject toJsonObject() {
         throw new UnsupportedOperationException("Cannot convert JsonBoolean to JsonObject");

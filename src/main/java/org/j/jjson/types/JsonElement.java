@@ -2,41 +2,40 @@ package org.j.jjson.types;
 
 public  interface JsonElement {
 
-    public default boolean isJsonArray() {
+    default boolean isJsonArray() {
         return this instanceof JsonArray;
     }
 
-    public abstract JsonArray toJsonArray();
+    JsonArray toJsonArray();
 
-
-    public default boolean isJsonObject() {
+    default boolean isJsonObject() {
         return this instanceof JsonObject;
     }
 
-    public abstract JsonObject toJsonObject();
+    JsonObject toJsonObject();
 
-    public default boolean isJsonString() {
+    default boolean isJsonString() {
         return this instanceof JsonString;
     }
 
-    public abstract JsonString toJsonString();
+    JsonString toJsonString();
 
-    public default boolean isJsonNumber() {
+    default boolean isJsonNumber() {
         return this instanceof JsonNumber;
     }
 
-    public abstract JsonNumber toJsonNumber();
+    JsonNumber toJsonNumber();
 
-    public default boolean isJsonBoolean() {
+    default boolean isJsonBoolean() {
         return this instanceof JsonBoolean;
     }
 
-    public abstract JsonBoolean toJsonBoolean();
+    JsonBoolean toJsonBoolean();
 
-    public default boolean isJsonNull() {
+    default boolean isJsonNull() {
         return this instanceof JsonNull;
     }
 
-    public abstract JsonNull toJsonNull();
+    JsonNull toJsonNull();
 
 }

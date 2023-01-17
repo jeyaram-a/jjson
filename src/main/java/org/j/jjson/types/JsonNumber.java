@@ -10,6 +10,11 @@ public class JsonNumber implements JsonElement {
     public JsonNumber(String num) {
        val = new BigDecimal(num);
     }
+
+    public BigDecimal getVal() {
+        return val;
+    }
+
     public JsonArray toJsonArray() {
         throw new UnsupportedOperationException("Cannot convert JsonNumber to JsonArray");
     }
