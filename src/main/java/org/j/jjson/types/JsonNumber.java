@@ -1,6 +1,14 @@
 package org.j.jjson.types;
 
+import java.math.BigDecimal;
+
 public class JsonNumber extends JsonElement {
+
+    private BigDecimal val;
+
+    public JsonNumber(String num) {
+       val = new BigDecimal(num);
+    }
     public JsonArray toJsonArray() {
         throw new UnsupportedOperationException("Cannot convert JsonNumber to JsonArray");
     }

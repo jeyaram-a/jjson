@@ -1,6 +1,12 @@
 package org.j.jjson.types;
 
 public class JsonBoolean extends JsonElement {
+
+    private final boolean val;
+
+    public JsonBoolean(boolean val) {
+        this.val = val;
+    }
     @Override
     public JsonArray toJsonArray() {
         throw new UnsupportedOperationException("Cannot convert JsonBoolean to JsonArray");

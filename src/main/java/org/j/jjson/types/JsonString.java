@@ -1,6 +1,12 @@
 package org.j.jjson.types;
 
 public class JsonString extends JsonElement {
+
+    private final String str;
+
+    public JsonString(String str) {
+        this.str = str;
+    }
     public JsonArray toJsonArray() {
         throw new UnsupportedOperationException("Cannot convert JsonString to JsonArray");
     }

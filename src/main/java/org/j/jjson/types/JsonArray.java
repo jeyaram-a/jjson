@@ -1,6 +1,14 @@
 package org.j.jjson.types;
 
+import java.util.List;
+
 public class JsonArray extends JsonElement {
+
+    private final List<JsonElement> arr;
+
+    public JsonArray(List<JsonElement> arr) {
+        this.arr = arr;
+    }
     @Override
     public JsonArray toJsonArray() {
         return this;
