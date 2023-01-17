@@ -8,8 +8,6 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class JJSonParserTest {
 
     Path getPath(String fileName) throws URISyntaxException {
@@ -17,7 +15,7 @@ class JJSonParserTest {
        return Paths.get(res.toURI()).toFile().toPath();
     }
     @Test
-    void test1() throws URISyntaxException, IOException {
+    void Test1() throws URISyntaxException, IOException {
         var parsed = JJSonParser.parse(getPath("narcos.json"));
         assert parsed.isJsonObject();
     }
