@@ -1,6 +1,8 @@
 package org.j.jjson.types;
 
-public class JsonString extends JsonElement {
+import java.util.Objects;
+
+public class JsonString implements JsonElement {
 
     private final String str;
 
@@ -34,5 +36,23 @@ public class JsonString extends JsonElement {
     @Override
     public JsonNull toJsonNull() {
         throw new UnsupportedOperationException("Cannot convert JsonString to JsonNull");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        JsonString that = (JsonString) o;
+        return Objects.equals(str, that.str);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(str);
+    }
+
+    @Override
+    public String toString() {
+        return str;
     }
 }

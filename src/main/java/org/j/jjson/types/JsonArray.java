@@ -1,14 +1,10 @@
 package org.j.jjson.types;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class JsonArray extends JsonElement {
+public class JsonArray extends ArrayList<JsonElement> implements JsonElement {
 
-    private final List<JsonElement> arr;
 
-    public JsonArray(List<JsonElement> arr) {
-        this.arr = arr;
-    }
     @Override
     public JsonArray toJsonArray() {
         return this;
@@ -38,4 +34,5 @@ public class JsonArray extends JsonElement {
     public JsonNull toJsonNull() {
         throw new UnsupportedOperationException("Cannot convert JsonArray to JsonNull");
     }
+
 }

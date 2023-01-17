@@ -1,8 +1,9 @@
 package org.j.jjson.types;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
-public class JsonNumber extends JsonElement {
+public class JsonNumber implements JsonElement {
 
     private BigDecimal val;
 
@@ -36,5 +37,23 @@ public class JsonNumber extends JsonElement {
     @Override
     public JsonNull toJsonNull() {
         throw new UnsupportedOperationException("Cannot convert JsonNumber to JsonNull");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        JsonNumber that = (JsonNumber) o;
+        return Objects.equals(val, that.val);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(val);
+    }
+
+    @Override
+    public String toString() {
+        return val.toString();
     }
 }

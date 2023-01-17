@@ -1,6 +1,6 @@
 package org.j.jjson.types;
 
-public class JsonNull extends JsonElement {
+public class JsonNull implements JsonElement {
     @Override
     public JsonArray toJsonArray() {
         throw new UnsupportedOperationException("Cannot convert JsonNull to JsonArray");
@@ -31,5 +31,13 @@ public class JsonNull extends JsonElement {
         return this;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof JsonNull;
+    }
 
+    @Override
+    public String toString() {
+        return "null";
+    }
 }

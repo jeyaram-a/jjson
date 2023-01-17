@@ -2,11 +2,9 @@ package org.j.jjson.parser;
 
 import org.j.jjson.types.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
 
 public class JJSonParser {
 
@@ -22,12 +20,17 @@ public class JJSonParser {
         return content.charAt(cursor-1);
     }
 
+    private boolean EOFreached = false;
+
     char charAtCursor() {
         return content.charAt(cursor);
     }
 
     private void moveForward() {
         ++cursor;
+        if(cursor == content.length()) {
+            EOFreached = true;
+        }
         if(cursor > content.length()) {
             throw new ParseException("Reached EOF. Malformed json");
         }
@@ -52,12 +55,19 @@ public class JJSonParser {
         this.content = content;
     }
 
-    public JJSonParser(Path path) throws IOException {
-        this.content = new String(Files.readAllBytes(path));
+    public JJSonParser(Path path) {
+        try {
+            this.content = new String(Files.readAllBytes(path)).strip();
+        } catch (IOException e) {
+            throw new ParseException("Error in reading file", e);
+        }
     }
 
     private void skipWhiteSpaces() {
-        while (Character.isWhitespace(charAtCursor())) {
+        if(EOFreached) {
+            return;
+        }
+        while (!EOFreached && Character.isWhitespace(charAtCursor())) {
             moveForward();
         }
     }
@@ -101,6 +111,9 @@ public class JJSonParser {
     }
 
     void assertChar(char x) {
+        if(EOFreached) {
+            throw new ParseException("Reached EOF. Malformed json");
+        }
         // TODO improve add coloring and show context
         if(charAtCursor() != x) {
             String context = content.substring(Math.max(0, cursor-5), Math.min(cursor+6, content.length())).strip();
@@ -114,11 +127,11 @@ public class JJSonParser {
     }
 
     private JsonObject parseJsonObject() {
-        Map<String, JsonElement> obj = new HashMap<>();
+        var obj = new JsonObject();
         boolean firstEncountered = false;
         while (true) {
             skipWhiteSpaces();
-            if(charAtCursor() == '}') {
+            if(!EOFreached && charAtCursor() == '}') {
                 moveForward();
                 break;
             }
@@ -140,15 +153,15 @@ public class JJSonParser {
             skipWhiteSpaces();
             firstEncountered = true;
         }
-        return new JsonObject(obj);
+        return obj;
     }
 
     private JsonArray parseJsonArray() {
-        List<JsonElement> list = new ArrayList<>();
+        var list = new JsonArray();
         boolean firstEncounterd = false;
         while (true) {
             skipWhiteSpaces();
-            if(charAtCursor() == ']') {
+            if(!EOFreached && charAtCursor() == ']') {
                 moveForward();
                 break;
             }
@@ -161,7 +174,7 @@ public class JJSonParser {
             skipWhiteSpaces();
             firstEncounterd = true;
         }
-        return new JsonArray(list);
+        return list;
     }
 
     private JsonString parseJsonString() {
@@ -232,9 +245,17 @@ public class JJSonParser {
         return parser.parse();
     }
 
-    public static JsonElement parse(Path path) throws IOException {
+    void ifNotArrayOrObjectExit() {
+        skipWhiteSpaces();
+        if(charAtCursor() != '{' && charAtCursor() != '[') {
+            throw new ParseException("Invalid json. Not an object or an array");
+        }
+    }
+
+    public static JsonElement parse(Path path) {
         var parser = new JJSonParser(path);
         var start = System.currentTimeMillis();
+        parser.ifNotArrayOrObjectExit();
         var parsed = parser.parse();
         var elapsed = System.currentTimeMillis() - start;
         System.out.println(String.format("Parsing took %d ms", elapsed));
